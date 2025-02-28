@@ -63,3 +63,15 @@ func InitMySQL(cfg *config.DatabaseConfig) error {
 func GetDB() *gorm.DB {
 	return DB
 }
+
+// CloseMySQL 关闭MySQL连接
+func CloseMySQL() error {
+	if DB != nil {
+		sqlDB, err := DB.DB()
+		if err != nil {
+			return err
+		}
+		return sqlDB.Close()
+	}
+	return nil
+}

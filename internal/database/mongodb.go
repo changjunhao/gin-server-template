@@ -19,11 +19,12 @@ var MongoDBName string
 // InitMongoDB 初始化MongoDB连接
 func InitMongoDB(cfg *config.DatabaseConfig) error {
 	// 构建MongoDB连接URI
-	uri := fmt.Sprintf("mongodb://%s:%s@%s:%d",
+	uri := fmt.Sprintf("mongodb://%s:%s@%s:%d/%s?authSource=admin",
 		cfg.Username,
 		cfg.Password,
 		cfg.Host,
 		cfg.Port,
+		cfg.DBName
 	)
 
 	// 设置客户端选项

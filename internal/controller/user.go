@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"gin-server/internal/config"
 	"gin-server/internal/entity"
 	"gin-server/internal/service"
 	"gin-server/pkg/response"
@@ -14,12 +15,14 @@ import (
 // UserController 用户控制器
 type UserController struct {
 	userService *service.UserService
+	jwtConfig   *config.JWTConfig
 }
 
 // NewUserController 创建用户控制器实例
-func NewUserController() *UserController {
+func NewUserController(userService *service.UserService, jwtConfig *config.JWTConfig) *UserController {
 	return &UserController{
-		userService: service.NewUserService(),
+		userService: userService,
+		jwtConfig:   jwtConfig,
 	}
 }
 
@@ -170,16 +173,16 @@ func (c *UserController) generateToken(user *entity.User) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id":  user.ID,
 		"username": user.Username,
-		"exp":      time.Now().Add(time.Hour * 24).Unix(), // 24小时过期
+		"exp":      time.Now().Add(time.Hour * time.Duration(c.jwtConfig.Expire)).Unix(),
 		"iat":      time.Now().Unix(),
-		"iss":      "gin-server",
+		"iss":      c.jwtConfig.Issuer,
 	}
 
 	// 创建令牌
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// 签名令牌
-	tokenString, err := token.SignedString([]byte("your_jwt_secret_key")) // 实际应用中应从配置中获取密钥
+	tokenString, err := token.SignedString([]byte(c.jwtConfig.Secret))
 	if err != nil {
 		return "", err
 	}

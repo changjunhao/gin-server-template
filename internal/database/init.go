@@ -2,6 +2,7 @@ package database
 
 import (
 	"errors"
+	"fmt"
 	"gin-server/internal/config"
 	"gin-server/internal/entity"
 	"log"
@@ -46,4 +47,19 @@ func AutoMigrate() error {
 		&entity.User{},
 		// 其他模型...
 	)
+}
+
+// CloseDatabase 根据配置关闭数据库连接
+func CloseDatabase(cfg *config.DatabaseConfig) error {
+	// 根据配置选择数据库类型
+	switch cfg.Driver {
+	case "mysql":
+		// 关闭MySQL连接
+		return CloseMySQL()
+	case "mongodb":
+		// 关闭MongoDB连接
+		return CloseMongoDB()
+	default:
+		return fmt.Errorf("不支持的数据库类型: %s", cfg.Driver)
+	}
 }
