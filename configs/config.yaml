@@ -1,0 +1,23 @@
+# 服务器配置
+server:
+  port: 8080
+  mode: debug # debug, release, test
+
+# 数据库配置
+database:
+  driver: mysql  # 可选值: mysql, mongodb
+  host: localhost
+  port: 3306  # MySQL端口3306，MongoDB端口通常为27017
+  username: root
+  password: password
+  dbname: gin_server
+  charset: utf8mb4  # 仅MySQL使用
+  max_idle_conns: 10
+  max_open_conns: 100
+  conn_max_lifetime: 3600
+
+# JWT配置
+jwt:
+  secret: your_jwt_secret_key
+  expire: 24 # 小时
+  issuer: gin-server
