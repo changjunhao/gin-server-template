@@ -2,8 +2,8 @@ package database
 
 import (
 	"errors"
-	"gin-server/internal/config"
-	"gin-server/internal/entity"
+	"gin-server-template/internal/config"
+	"gin-server-template/internal/entity"
 	"log"
 )
 

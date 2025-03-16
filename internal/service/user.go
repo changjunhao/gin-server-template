@@ -2,8 +2,8 @@ package service
 
 import (
 	"errors"
-	"gin-server/internal/entity"
-	"gin-server/internal/repository"
+	"gin-server-template/internal/entity"
+	"gin-server-template/internal/repository"
 	"golang.org/x/crypto/bcrypt"
 )
 

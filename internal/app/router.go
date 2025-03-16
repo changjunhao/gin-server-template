@@ -1,8 +1,8 @@
 package app
 
 import (
-	"gin-server/internal/controller"
-	"gin-server/internal/middleware"
+	"gin-server-template/internal/controller"
+	"gin-server-template/internal/middleware"
 )
 
 // setupRoutes 配置所有API路由

@@ -3,8 +3,8 @@ package mongodb
 import (
 	"context"
 	"errors"
-	"gin-server/internal/database"
-	"gin-server/internal/entity"
+	"gin-server-template/internal/database"
+	"gin-server-template/internal/entity"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"

@@ -2,8 +2,8 @@ package mysql
 
 import (
 	"errors"
-	"gin-server/internal/database"
-	"gin-server/internal/entity"
+	"gin-server-template/internal/database"
+	"gin-server-template/internal/entity"
 
 	"gorm.io/gorm"
 )

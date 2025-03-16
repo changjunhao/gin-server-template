@@ -20,4 +20,4 @@ database:
 jwt:
   secret: your_jwt_secret_key
   expire: 24 # 小时
-  issuer: gin-server
+  issuer: gin-server-template

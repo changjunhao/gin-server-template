@@ -3,7 +3,7 @@ package database
 import (
 	"context"
 	"fmt"
-	"gin-server/internal/config"
+	"gin-server-template/internal/config"
 	"log"
 	"time"
 

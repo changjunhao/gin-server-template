@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"gin-server/internal/config"
-	"gin-server/pkg/response"
+	"gin-server-template/internal/config"
+	"gin-server-template/pkg/response"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -30,7 +30,7 @@ func JWTAuth() gin.HandlerFunc {
 
 		// 解析JWT令牌
 		tokenString := parts[1]
-		
+
 		// 从应用配置获取JWT密钥
 		cfg, err := config.LoadConfig("configs/config.yaml")
 		if err != nil {

@@ -1,9 +1,10 @@
 package controller
 
 import (
-	"gin-server/internal/entity"
-	"gin-server/internal/service"
-	"gin-server/pkg/response"
+	"gin-server-template/internal/config"
+	"gin-server-template/internal/entity"
+	"gin-server-template/internal/service"
+	"gin-server-template/pkg/response"
 	"net/http"
 	"time"
 
@@ -166,20 +167,26 @@ func (c *UserController) UpdateProfile(ctx *gin.Context) {
 
 // generateToken 生成JWT令牌
 func (c *UserController) generateToken(user *entity.User) (string, error) {
+	// 从配置中获取JWT密钥
+	cfg, err := config.LoadConfig("configs/config.yaml")
+	if err != nil {
+		return "", err
+	}
+
 	// 创建JWT声明
 	claims := jwt.MapClaims{
 		"user_id":  user.ID,
 		"username": user.Username,
-		"exp":      time.Now().Add(time.Hour * 24).Unix(), // 24小时过期
+		"exp":      time.Now().Add(time.Hour * time.Duration(cfg.JWT.Expire)).Unix(), // 从配置中获取过期时间
 		"iat":      time.Now().Unix(),
-		"iss":      "gin-server",
+		"iss":      cfg.JWT.Issuer, // 从配置中获取发行者
 	}
 
 	// 创建令牌
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// 签名令牌
-	tokenString, err := token.SignedString([]byte("your_jwt_secret_key")) // 实际应用中应从配置中获取密钥
+	tokenString, err := token.SignedString([]byte(cfg.JWT.Secret)) // 从配置中获取密钥
 	if err != nil {
 		return "", err
 	}

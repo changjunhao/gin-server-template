@@ -2,9 +2,9 @@ package app
 
 import (
 	"fmt"
-	"gin-server/internal/config"
-	"gin-server/internal/database"
-	"gin-server/internal/middleware"
+	"gin-server-template/internal/config"
+	"gin-server-template/internal/database"
+	"gin-server-template/internal/middleware"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -50,4 +50,23 @@ func NewServer(cfg *config.Config) *Server {
 // Run 启动HTTP服务器
 func (s *Server) Run() error {
 	return s.router.Run(fmt.Sprintf(":%d", s.config.Server.Port))
+}
+
+// Close 关闭服务器并释放资源
+func (s *Server) Close() {
+	// 根据数据库类型关闭连接
+	switch s.config.Database.Driver {
+	case "mysql":
+		if err := database.CloseMySQL(); err != nil {
+			log.Printf("关闭MySQL连接失败: %v", err)
+		} else {
+			log.Println("MySQL连接已关闭")
+		}
+	case "mongodb":
+		if err := database.CloseMongoDB(); err != nil {
+			log.Printf("关闭MongoDB连接失败: %v", err)
+		} else {
+			log.Println("MongoDB连接已关闭")
+		}
+	}
 }
